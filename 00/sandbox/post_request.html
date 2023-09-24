@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="post_request.css" />
+    <title>Example2</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Notes</h1>
+      <div class="notes">
+        <ul class="notes">
+          <li>HTML is easy</li>
+          <li>Browser can execute only Javascript</li>
+          <li>Most important methods of HTTP-protocol are GET and POST</li>
+        </ul>
+      </div>
+      <form action="/new-note" method="POST">
+        <input type="text" name="note" /><br />
+        <input type="submit" value="Save" />
+      </form>
+    </div>
+  </body>
+</html>
