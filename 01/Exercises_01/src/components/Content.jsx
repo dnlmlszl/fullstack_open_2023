@@ -1,11 +1,17 @@
 import Part from './Part';
 
-const Content = ({ part }) => {
+const Content = ({ parts }) => {
   return (
     <section>
-      <Part>
-        {part.name} {part.exercises}
-      </Part>
+      {parts &&
+        parts.map((part) => {
+          const { name, exercises } = part;
+          return (
+            <Part key={name}>
+              {name} {exercises}
+            </Part>
+          );
+        })}
     </section>
   );
 };
