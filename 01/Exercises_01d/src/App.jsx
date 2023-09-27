@@ -9,7 +9,7 @@ function App() {
   const [bad, setBad] = useState(0);
 
   const total = good + neutral + bad;
-  const average = Number((good - bad) / total);
+  const average = (good - bad) / total;
   const positive = `${(good / total) * 100}%`;
 
   return (
@@ -19,12 +19,18 @@ function App() {
       <Button onHandleClick={() => setNeutral((nt) => nt + 1)} text="neutral" />
       <Button onHandleClick={() => setBad((bd) => bd + 1)} text="bad" />
       <Title>Statistics</Title>
-      <Statistics stat={good} text="good" />
-      <Statistics stat={neutral} text="neutral" />
-      <Statistics stat={bad} text="bad" />
-      <Statistics stat={total} text="all" />
-      <Statistics stat={average} text="average" />
-      <Statistics stat={positive} text="positive" />
+      {!good && !neutral && !bad ? (
+        <p>No feedback given</p>
+      ) : (
+        <>
+          <Statistics stat={good} text="good" />
+          <Statistics stat={neutral} text="neutral" />
+          <Statistics stat={bad} text="bad" />
+          <Statistics stat={total} text="all" />
+          <Statistics stat={average} text="average" />
+          <Statistics stat={positive} text="positive" />
+        </>
+      )}
     </main>
   );
 }
