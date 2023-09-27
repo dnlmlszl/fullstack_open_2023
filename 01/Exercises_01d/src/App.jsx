@@ -20,7 +20,7 @@ function App() {
       <Button onHandleClick={() => setBad((bd) => bd + 1)} text="bad" />
       <Title>Statistics</Title>
       {!good && !neutral && !bad ? (
-        <p>No feedback given</p>
+        <p>No feedback given yet</p>
       ) : (
         <>
           <Statistics stat={good} text="good" />
