@@ -10,7 +10,7 @@ function App() {
 
   const total = good + neutral + bad;
   const average = (good - bad) / total;
-  const positive = `${(good / total) * 100}%`;
+  const positive = `${((good / total) * 100).toFixed(1)}%`;
 
   return (
     <main>
@@ -27,7 +27,7 @@ function App() {
           <Statistics stat={neutral} text="neutral" />
           <Statistics stat={bad} text="bad" />
           <Statistics stat={total} text="all" />
-          <Statistics stat={average} text="average" />
+          <Statistics stat={average.toFixed(1)} text="average" />
           <Statistics stat={positive} text="positive" />
         </>
       )}
