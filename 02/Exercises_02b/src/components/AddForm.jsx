@@ -8,7 +8,7 @@ const AddForm = ({
   return (
     <form onSubmit={addName}>
       <div>
-        Name:{' '}
+        <label>Name</label>
         <input
           type="text"
           value={newName}
@@ -17,7 +17,7 @@ const AddForm = ({
         />
       </div>
       <div>
-        Number:{' '}
+        <label>Number</label>
         <input
           type="text"
           value={number}
