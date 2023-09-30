@@ -3,6 +3,8 @@ import Person from './components/Person';
 import AddForm from './components/AddForm';
 import SearchForm from './components/SearchForm';
 import services from './services/utils';
+import Footer from './components/Footer';
+import Notification from './components/Notification';
 
 function App() {
   const [persons, setPersons] = useState([]);
@@ -10,6 +12,7 @@ function App() {
   const [number, setNumber] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPersons, setFilteredPersons] = useState(persons);
+  const [message, setMessage] = useState(null);
 
   function fetchPersons() {
     services.getAll().then((initialData) => {
@@ -38,15 +41,28 @@ function App() {
       if (confirmUpdate) {
         const updatedPerson = { ...existingPerson, number: number };
 
-        services.updatePerson(existingPerson.id, updatedPerson).then(() => {
-          setPersons(
-            persons.map((person) =>
-              person.id === existingPerson.id ? updatedPerson : person
-            )
-          );
-          setNewName('');
-          setNumber('');
-        });
+        services
+          .updatePerson(existingPerson.id, updatedPerson)
+          .then(() => {
+            setPersons(
+              persons.map((person) =>
+                person.id === existingPerson.id ? updatedPerson : person
+              )
+            );
+            setNewName('');
+            setNumber('');
+            setMessage(`${updatedPerson.name}'s number has been edited`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            console.log(error);
+            setMessage(`${updatedPerson.name} has already been deleted`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          });
       }
     } else {
       const nameObject = {
@@ -56,6 +72,10 @@ function App() {
       };
       services.createPerson(nameObject).then((returnedData) => {
         setPersons(persons.concat(returnedData));
+        setMessage(`Added ${returnedData.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
         setNewName('');
         setNumber('');
       });
@@ -71,9 +91,17 @@ function App() {
       .deletePerson(id)
       .then(() => {
         setPersons(persons.filter((prs) => prs.id !== id));
+        setMessage(`${person.name} has been deleted from the phonebook`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       })
       .catch((error) => {
-        console.log('Error when deleting person', error);
+        console.log(error);
+        setMessage('Error when deleting person');
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
   }
 
@@ -116,6 +144,9 @@ function App() {
         </ul>
       </section>
       {/* <div>debug: {newName}</div> */}
+      <Notification message={message} />
+
+      <Footer />
     </main>
   );
 }

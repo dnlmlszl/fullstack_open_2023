@@ -135,3 +135,13 @@ li > p {
   background: #fff;
   color: goldenrod;
 }
+
+.error {
+  color: red;
+  background: lightgray;
+  font-size: 1.25rem;
+  border-style: solid;
+  border-radius: 0.25rem;
+  padding: 0.625rem;
+  margin-bottom: 0.625rem;
+}
