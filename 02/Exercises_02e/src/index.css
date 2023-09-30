@@ -1,0 +1,106 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #fff;
+  line-height: 1.4;
+  color: #333;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+h2 {
+  margin-bottom: 2rem;
+}
+
+li {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 2.25rem;
+  padding: 0 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: #333;
+  width: 35vw;
+}
+
+button {
+  background: green;
+  color: #fff;
+  border: green;
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.25rem;
+}
+
+main {
+  max-width: 1170px;
+  width: 95vw;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 95vw;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1170px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.form-container > h2 {
+  margin-bottom: 1.5rem;
+  letter-spacing: 1.5px;
+  font-size: 2.4rem;
+  font-weight: normal;
+}
+
+.form-container > form {
+  display: flex;
+}
+
+.form-container > form > label {
+  font-size: 1.25rem;
+  flex: 1;
+}
+.form-container > form > input {
+  font-size: 1.25rem;
+  width: 100%;
+  flex: 2;
+}
+
+.result-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  gap: 3rem;
+  place-items: start;
+  padding: 2rem;
+  max-width: 1170px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 6rem;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
