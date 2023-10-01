@@ -1,8 +1,15 @@
 const express = require('express');
 const app = express();
+
+const morgan = require('morgan');
 let persons = require('./data.json');
 
 app.use(express.json());
+// Just in development
+morgan.token('body', (req) => JSON.stringify(req.body));
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+);
 
 function generateId() {
   const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
