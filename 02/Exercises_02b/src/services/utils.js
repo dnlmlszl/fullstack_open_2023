@@ -1,24 +1,44 @@
 import axios from 'axios';
 const baseUrl = 'http://localhost:5000/api/v1/persons';
 
-const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
+const getAll = async () => {
+  try {
+    const response = await axios.get(baseUrl);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+    throw error;
+  }
 };
 
-const createPerson = (newObject) => {
-  const request = axios.post(baseUrl, newObject);
-  return request.then((response) => response.data);
+const createPerson = async (newObject) => {
+  try {
+    const response = await axios.post(baseUrl, newObject);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating person: ', error);
+    throw error;
+  }
 };
 
-const deletePerson = (id) => {
-  const request = axios.delete(`${baseUrl}/${id}`);
-  return request.then((response) => response.data);
+const deletePerson = async (id) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting person: ', error);
+    throw error;
+  }
 };
 
-const updatePerson = (id, newObj) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObj);
-  return request.then((response) => response.data);
+const updatePerson = async (id, newObj) => {
+  try {
+    const response = await axios.put(`${baseUrl}/${id}`, newObj);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating person: ', error);
+    throw error;
+  }
 };
 
 export default { getAll, createPerson, deletePerson, updatePerson };

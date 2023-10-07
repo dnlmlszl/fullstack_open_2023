@@ -14,13 +14,17 @@ function App() {
   const [filteredPersons, setFilteredPersons] = useState(persons);
   const [message, setMessage] = useState(null);
 
-  function fetchPersons() {
-    services.getAll().then((initialData) => {
-      setPersons(initialData);
-    });
-  }
-
-  useEffect(() => fetchPersons, []);
+  useEffect(() => {
+    const fetchPersons = async () => {
+      try {
+        const initialPersons = await services.getAll();
+        setPersons(initialPersons.persons);
+      } catch (error) {
+        console.error('Error fetching persons: ', error);
+      }
+    };
+    fetchPersons();
+  }, []);
 
   function handleNameChange(e) {
     setNewName(e.target.value);
@@ -30,80 +34,59 @@ function App() {
     setNumber(e.target.value);
   }
 
-  function addName(e) {
+  const addPerson = async (e) => {
     e.preventDefault();
-    const existingPerson = persons.find((person) => person.name === newName);
-    if (existingPerson) {
-      const confirmUpdate = window.confirm(
-        `${newName} is already added to phonebook, replace the old number with a new one?`
-      );
-
-      if (confirmUpdate) {
-        const updatedPerson = { ...existingPerson, number: number };
-
-        services
-          .updatePerson(existingPerson.id, updatedPerson)
-          .then(() => {
-            setPersons(
-              persons.map((person) =>
-                person.id === existingPerson.id ? updatedPerson : person
-              )
-            );
-            setNewName('');
-            setNumber('');
-            setMessage(`${updatedPerson.name}'s number has been edited`);
-            setTimeout(() => {
-              setMessage(null);
-            }, 5000);
-          })
-          .catch((error) => {
-            console.log(error);
-            setMessage(`${updatedPerson.name} has already been deleted`);
-            setTimeout(() => {
-              setMessage(null);
-            }, 5000);
-          });
-      }
-    } else {
-      const nameObject = {
-        // id: persons.length + 1,
-        name: newName,
-        number: number,
-      };
-      services.createPerson(nameObject).then((returnedData) => {
-        setPersons(persons.concat(returnedData));
-        setMessage(`Added ${returnedData.name}`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
+    const newPerson = {
+      name: newName,
+      number: number,
+    };
+    try {
+      const addedPerson = await services.createPerson(newPerson);
+      if (addedPerson && addedPerson.person) {
+        setPersons((prevPersons) => prevPersons.concat(addedPerson.person));
         setNewName('');
         setNumber('');
-      });
+        setMessage(`Added ${newPerson.name} to the Phonebook`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      } else {
+        throw new Error('Invalid server response');
+      }
+      console.log(addedPerson);
+    } catch (error) {
+      console.error('Error: ', error);
+      setTimeout(() => {
+        setMessage(`Error: Could not add ${newPerson.name} to the Phonebook`);
+      }, 5000);
     }
-  }
+  };
 
-  function handleDel(id) {
-    const person = persons.find((prs) => prs.id === id);
-    console.log(`Deleteing person ${person.name}`);
+  const handleDel = async (id) => {
+    const person = persons.find((prs) => prs._id === id);
+    console.log(`Deleting person ${person.name}`);
+
     const confirmed = window.confirm(`Delete ${person.name} ?`);
     if (!confirmed) return;
-    services
-      .deletePerson(id)
-      .then(() => {
-        setPersons(persons.filter((prs) => prs.id !== id));
-        setMessage(`${person.name} has been deleted from the phonebook`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      })
-      .catch((error) => {
-        console.log(error);
-        setMessage('Error when deleting person');
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      });
-  }
+    try {
+      await services.deletePerson(id);
+      setPersons((prevPersons) => prevPersons.filter((p) => p._id !== id));
+      setMessage(`${person.name} has been deleted from the phonebook`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    } catch (error) {
+      console.log(error);
+      setMessage('Error when deleting person');
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log('Persons state changed:', persons);
+  // }, [persons]);
 
   useEffect(() => {
     function search() {
@@ -132,18 +115,19 @@ function App() {
             newName={newName}
             handleNameChange={handleNameChange}
             handleNumberChange={handleNumberChange}
-            addName={addName}
+            addName={addPerson}
             number={number}
           />
         </section>
         <section>
           <h2>Numbers</h2>
           <ul>
-            {filteredPersons.map((person) => {
-              return (
-                <Person key={person.id} handleDel={handleDel} {...person} />
-              );
-            })}
+            {Array.isArray(filteredPersons) &&
+              filteredPersons.map((person) => {
+                return (
+                  <Person key={person._id} handleDel={handleDel} {...person} />
+                );
+              })}
           </ul>
         </section>
       </div>
