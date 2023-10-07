@@ -1,10 +1,10 @@
 const Note = ({ content, important, toggleImportance }) => {
   const label = important ? 'Make not important' : 'Make important';
   return (
-    <li>
+    <li className="note">
       <p>{content}</p>
       <button
-        className={`${important ? 'active' : 'not'}`}
+        className={`button ${important ? 'active' : 'not'}`}
         onClick={toggleImportance}
       >
         {label}

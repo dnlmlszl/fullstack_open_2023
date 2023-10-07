@@ -123,27 +123,30 @@ function App() {
 
   return (
     <main>
-      <section>
-        <h2>Phonebook</h2>
-        <SearchForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <h2>Add a new</h2>
-        <AddForm
-          newName={newName}
-          handleNameChange={handleNameChange}
-          handleNumberChange={handleNumberChange}
-          addName={addName}
-          number={number}
-        />
-      </section>
-      <section>
-        <h2>Numbers</h2>
-        <ul>
-          {filteredPersons.map((person) => {
-            return <Person key={person.id} handleDel={handleDel} {...person} />;
-          })}
-        </ul>
-      </section>
-      {/* <div>debug: {newName}</div> */}
+      <div className="main">
+        <section>
+          <h2>Phonebook</h2>
+          <SearchForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <h2>Add a new</h2>
+          <AddForm
+            newName={newName}
+            handleNameChange={handleNameChange}
+            handleNumberChange={handleNumberChange}
+            addName={addName}
+            number={number}
+          />
+        </section>
+        <section>
+          <h2>Numbers</h2>
+          <ul>
+            {filteredPersons.map((person) => {
+              return (
+                <Person key={person.id} handleDel={handleDel} {...person} />
+              );
+            })}
+          </ul>
+        </section>
+      </div>
       <Notification message={message} />
 
       <Footer />

@@ -4,8 +4,10 @@ const Footer = () => {
     fontStyle: 'italic',
     fontSize: 16,
     textAlign: 'center',
-    margin: '2rem 0',
+    margin: '2rem auto',
     gridColumn: 'span 2',
+    width: '90%',
+    letterSpacing: '2px',
   };
   return (
     <footer style={FooterStyle}>

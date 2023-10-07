@@ -10,6 +10,8 @@ function App() {
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  console.log(notes);
+
   function hook() {
     noteService.getAll().then((initialNotes) => {
       setNotes(initialNotes);
@@ -63,7 +65,7 @@ function App() {
     : notes.filter((note) => note.important === true);
 
   return (
-    <main>
+    <main className="main">
       <h2>Notes</h2>
       <Notification message={errorMessage} />
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -74,8 +76,8 @@ function App() {
       <ul>
         {notesToShow.map((note) => (
           <Note
-            key={note.id}
-            toggleImportance={() => toggleImportanceOf(note.id)}
+            key={note._id}
+            toggleImportance={() => toggleImportanceOf(note._id)}
             {...note}
           />
         ))}
