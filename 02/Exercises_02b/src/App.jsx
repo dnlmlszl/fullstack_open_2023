@@ -36,30 +36,60 @@ function App() {
 
   const addPerson = async (e) => {
     e.preventDefault();
+
     const newPerson = {
       name: newName,
       number: number,
     };
-    try {
-      const addedPerson = await services.createPerson(newPerson);
-      if (addedPerson && addedPerson.person) {
-        setPersons((prevPersons) => prevPersons.concat(addedPerson.person));
-        setNewName('');
-        setNumber('');
-        setMessage(`Added ${newPerson.name} to the Phonebook`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      } else {
-        throw new Error('Invalid server response');
+
+    const existingPerson = persons.find((p) => p.name === newName);
+
+    if (existingPerson) {
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to Phonebook, replace the old number with a new one?`
+      );
+      if (confirmUpdate) {
+        try {
+          const response = await services.updatePerson(
+            existingPerson._id,
+            newPerson
+          );
+          const updatedPerson = response.updatedPerson;
+
+          console.log(updatedPerson);
+
+          setPersons((prevPersons) =>
+            prevPersons.map((person) =>
+              person._id !== existingPerson._id ? person : updatedPerson
+            )
+          );
+          setMessage(`Updated ${newName}'s number`);
+        } catch (error) {
+          console.error('Error', error);
+          setMessage(`Error: Could not update ${newName}'s number`);
+        }
       }
-      console.log(addedPerson);
-    } catch (error) {
-      console.error('Error: ', error);
-      setTimeout(() => {
+    } else {
+      try {
+        const addedPerson = await services.createPerson(newPerson);
+        console.log('Added Person:', addedPerson); // Debugging
+        if (addedPerson && addedPerson.person) {
+          setPersons((prevPersons) => prevPersons.concat(addedPerson.person));
+          setMessage(`Added ${newPerson.name} to the Phonebook`);
+        } else {
+          throw new Error('Invalid server response');
+        }
+        console.log(addedPerson);
+      } catch (error) {
+        console.error('Error: ', error);
         setMessage(`Error: Could not add ${newPerson.name} to the Phonebook`);
-      }, 5000);
+      }
     }
+    setNewName('');
+    setNumber('');
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
   };
 
   const handleDel = async (id) => {
@@ -72,16 +102,13 @@ function App() {
       await services.deletePerson(id);
       setPersons((prevPersons) => prevPersons.filter((p) => p._id !== id));
       setMessage(`${person.name} has been deleted from the phonebook`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
     } catch (error) {
       console.log(error);
       setMessage('Error when deleting person');
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
     }
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
   };
 
   // useEffect(() => {

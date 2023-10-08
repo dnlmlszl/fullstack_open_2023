@@ -147,30 +147,19 @@ li > p {
   grid-column: span 2;
 }
 
-@media screen and (min-width: 1067px) {
+@media screen and (min-width: 1280px) {
   .main {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     gap: 5rem;
   }
 
   li {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: start;
-    gap: 0.5rem;
+    gap: 2.5rem;
   }
 
   li > p {
     width: 85%;
-  }
-}
-
-@media screen and (min-width: 1350px) {
-  li {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  li > p {
-    justify-content: start;
-    width: 100%;
   }
 }
