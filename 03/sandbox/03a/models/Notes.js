@@ -4,11 +4,13 @@ const NoteSchema = new mongoose.Schema(
   {
     content: {
       type: String,
+      minLength: 5,
       required: true,
     },
     important: {
       type: Boolean,
       required: true,
+      default: false,
     },
   },
   { timestamps: true }

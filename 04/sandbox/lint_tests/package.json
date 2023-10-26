@@ -1,0 +1,16 @@
+{
+  "name": "lint_tests",
+  "version": "1.0.0",
+  "description": "FSO project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "eslint ."
+  },
+  "author": "LMD",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.51.0"
+  }
+}

@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 
 const connectDB = require('./db/connect');
+const errorHandlingMiddleware = require('./middleware/errorHandler');
 
 const requestLogger = (req, res, next) => {
   console.log('Method:', req.method);
@@ -15,7 +16,7 @@ const requestLogger = (req, res, next) => {
 };
 
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'unknown endpoint' }); 
+  res.status(404).send({ error: 'unknown endpoint' });
 };
 
 app.use(cors());
@@ -29,6 +30,7 @@ app.get('/api/v1', (req, res) => {
 const noteRouter = require('./routes/noteRouter');
 
 app.use('/api/v1/notes', noteRouter);
+app.use(errorHandlingMiddleware);
 
 app.use(unknownEndpoint);
 

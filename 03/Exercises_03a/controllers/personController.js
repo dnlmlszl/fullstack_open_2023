@@ -1,7 +1,7 @@
 const Person = require('../models/Persons');
 const { StatusCodes } = require('http-status-codes');
 
-const getPersons = async (req, res) => {
+const getPersons = async (req, res, next) => {
   try {
     const persons = await Person.find({});
     res.status(StatusCodes.OK).json({ persons });
@@ -10,7 +10,7 @@ const getPersons = async (req, res) => {
   }
 };
 
-const createPerson = async (req, res) => {
+const createPerson = async (req, res, next) => {
   const { name, number } = req.body;
 
   if (!name || !number) {
@@ -31,14 +31,11 @@ const createPerson = async (req, res) => {
     const person = await Person.create(req.body);
     res.status(StatusCodes.CREATED).json({ person });
   } catch (error) {
-    console.error(error);
-    return res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: 'Server error' });
+    next(error);
   }
 };
 
-const getSinglePerson = async (req, res) => {
+const getSinglePerson = async (req, res, next) => {
   const { id: personId } = req.params;
   try {
     const person = await Person.findOne({ _id: personId });
@@ -54,12 +51,12 @@ const getSinglePerson = async (req, res) => {
   }
 };
 
-const deletePerson = async (req, res) => {
+const deletePerson = async (req, res, next) => {
   const { id: personId } = req.params;
   try {
     const person = await Person.findOne({ _id: personId });
     if (!person) {
-      res
+      return res
         .status(StatusCodes.NOT_FOUND)
         .json({ error: `No person with id ${personId}` });
     }
@@ -73,7 +70,7 @@ const deletePerson = async (req, res) => {
   }
 };
 
-const updatePerson = async (req, res) => {
+const updatePerson = async (req, res, next) => {
   const { id: personId } = req.params;
   const { number } = req.body;
 

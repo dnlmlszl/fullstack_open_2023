@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:5000/api/v1/persons';
+const baseUrl = 'https://phonebookapi-pp7w.onrender.com/api/v1/persons';
 
 const getAll = async () => {
   try {
