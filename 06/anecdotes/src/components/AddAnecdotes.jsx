@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { addAnecdote } from '../store/anecdotesSlice';
-import { clearNotification, setNotification } from '../store/notificationSlice';
-import anecdoteService from '../services/anecdote';
+import { createAnecdote } from '../store/anecdotesSlice';
+import { showNotification } from '../store/notificationSlice';
 
 const AddAnecdotes = () => {
   const dispatch = useDispatch();
@@ -10,35 +9,21 @@ const AddAnecdotes = () => {
     e.preventDefault();
     const content = e.target.content.value;
     if (!content) {
-      dispatch(
-        setNotification({
-          type: 'error',
-          message: 'Please add a valid anecdote.',
-        })
-      );
-      setTimeout(() => {
-        dispatch(clearNotification());
-      }, 5000);
+      dispatch(showNotification(`Please add a valid anecdote.`, 5, 'error'));
+
       return;
     }
     try {
-      const newAnecdote = await anecdoteService.createNew(content);
-      dispatch(addAnecdote(newAnecdote));
-      dispatch(
-        setNotification({ type: 'success', message: 'Anecdote added!' })
-      );
+      dispatch(createAnecdote(content));
+      dispatch(showNotification(`Anecdote added!`, 5, 'success'));
     } catch (error) {
       dispatch(
-        setNotification({
-          type: 'error',
-          message: 'Error when adding new Anecdote',
-        })
+        showNotification(
+          `Error when adding new Anecdote: ${error.message}`,
+          5,
+          'error'
+        )
       );
-    } finally {
-      e.target.content.value = '';
-      setTimeout(() => {
-        dispatch(clearNotification());
-      }, 5000);
     }
   };
   return (

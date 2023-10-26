@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { setAnecdotes } from './store/anecdotesSlice';
+import { initializeAnecdotes } from './store/anecdotesSlice';
 import { useEffect } from 'react';
-import anecdoteService from './services/anecdote';
 import AddAnecdotes from './components/AddAnecdotes';
 import AnecdoteList from './components/AnecdoteList';
 import Notification from './components/Notification';
@@ -10,12 +9,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    anecdoteService
-      .getAll()
-      .then((anecdotes) => {
-        dispatch(setAnecdotes(anecdotes));
-      })
-      .catch((error) => console.error('Some error occured', error));
+    dispatch(initializeAnecdotes());
   }, [dispatch]);
 
   return (

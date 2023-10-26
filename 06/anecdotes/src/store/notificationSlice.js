@@ -10,7 +10,7 @@ export const notificationSlice = createSlice({
       state.type = action.payload.type;
       state.message = action.payload.message;
     },
-    clearNotification: (state, action) => {
+    clearNotification: (state) => {
       state.type = '';
       state.message = '';
     },
@@ -18,4 +18,15 @@ export const notificationSlice = createSlice({
 });
 
 export const { setNotification, clearNotification } = notificationSlice.actions;
+
+export const showNotification = (message, duration, type = 'success') => {
+  return async (dispatch) => {
+    dispatch(setNotification({ type: type, message: message }));
+
+    setTimeout(() => {
+      dispatch(clearNotification());
+    }, duration * 1000);
+  };
+};
+
 export const notificationReducer = notificationSlice.reducer;

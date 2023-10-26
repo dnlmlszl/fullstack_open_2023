@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { incrementVote } from '../store/anecdotesSlice';
-import { clearNotification, setNotification } from '../store/notificationSlice';
+import { showNotification } from '../store/notificationSlice';
 
 import anecdoteService from '../services/anecdote';
 
@@ -18,24 +18,15 @@ const Anecdotes = ({ anecdote }) => {
         updatedAnecdote
       );
       dispatch(incrementVote(returndeAnecdote));
-      dispatch(
-        setNotification({
-          type: 'success',
-          message: 'Vote added to the anecdote',
-        })
-      );
+      dispatch(showNotification(`Vote added to the anecdote`, 5, 'success'));
     } catch (error) {
-      console.error('There was an error: ', error);
       dispatch(
-        setNotification({
-          type: 'error',
-          message: 'Error when adding new Anecdote',
-        })
+        showNotification(
+          `Error when voting for an Anecdote: ${error.message}`,
+          5,
+          'error'
+        )
       );
-    } finally {
-      setTimeout(() => {
-        dispatch(clearNotification());
-      }, 5000);
     }
   };
   return (
