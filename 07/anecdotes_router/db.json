@@ -1,0 +1,46 @@
+{
+  "anecdotes": [
+    {
+      "content": "If it hurts, do it more often",
+      "author": "Jez Humble",
+      "info": "https: //martinfowler.com/bliki/FrequencyReducesDifficulty.html",
+      "votes": 1,
+      "id": 1
+    },
+    {
+      "content": "Premature optimization is the root of all evil",
+      "author": "Donald Knuth",
+      "info": "http: //wiki.c2.com/?PrematureOptimization",
+      "votes": 0,
+      "id": 2
+    },
+    {
+      "content": "A very new HTML anecdote",
+      "author": "LMD",
+      "info": "https://www.w3schools.com/html/",
+      "votes": 1,
+      "id": 3
+    },
+    {
+      "content": "The CSS fight",
+      "author": "LMD",
+      "info": "https://www.w3schools.com/w3css/defaulT.asp",
+      "votes": 3,
+      "id": 4
+    },
+    {
+      "content": "Agressive HTML content",
+      "author": "John Doe",
+      "info": "www.blablabla.hu",
+      "votes": 0,
+      "id": 5
+    },
+    {
+      "content": "Test Content",
+      "author": "Tester Esther",
+      "info": "https://www.test-my-html.com",
+      "votes": 3,
+      "id": 6
+    }
+  ]
+}
